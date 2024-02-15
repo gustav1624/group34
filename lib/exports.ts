@@ -1,5 +1,20 @@
+/**
+ * A record representing a project
+ * @param title the name of the project
+ * @param task_table a hashtable of tasks
+ */
 export type Project = { title: string, task_table: TaskStorage };
 
+/**
+ * A record representing a task
+ * @param title the name of the task
+ * @param id a unique number for each task
+ * @param description a description of the task and all necessary information
+ * @param subtasks a structure of smaller tasks
+ * @param status true if the task is completed
+ * @param priority a number representing the priority of the task
+ * @invariant the priority number must be a positive integer
+ */
 export type Task = { 
     title: string, 
     id: number, 
@@ -9,16 +24,45 @@ export type Task = {
     priority: number 
 };
 
+/**
+ * A record representing a subtask
+ * simpler version of a task
+ * @param title the name of the task
+ * @param id a unique number for each task
+ * @param description a description of the subtask and all necessary information
+ * @param status true if the subtask is completed
+ */
 export type SubTask = { title: string, id: number, description: string, status: boolean };
 
+/**
+ * A record representing a person
+ * @param name name of the person
+ * @param task_ids an array containing ids of the tasks
+ */
 export type User = { name: string, task_ids: Array<number> };
 
+//From hashtables.ts
+/**
+ * A hash table that resolves collisions by probing
+ * @template K the type of keys
+ * @template V the type of values
+ * @param keys the key array. null means that a key has been deleted.
+ * @param data the data associated with each key
+ * @param probe the probing function
+ * @param size the number of elements currently in the table
+ * @invariant the key type K contains neither null nor undefined
+ * @invariant If keys[i] is neither null nor undefined, 
+ *     then data[i] contains a value of type V.
+ * @invariant size is equal to the number of elements in keys 
+ *     that are neither null nor undefined.
+ */
 export type Hashtable<K, V> = { 
     readonly keys: Array<K | null | undefined>, 
     readonly data: Array<V>, 
     readonly probe: ProbingFunction<K>,
     size: number
 };
+
 
 export type ProbingFunction<K> = (length: number, key: K, i: number) => number;
 
