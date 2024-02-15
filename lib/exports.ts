@@ -64,24 +64,63 @@ export type Hashtable<K, V> = {
 };
 
 
+//from hashtables.ts
+/**
+ * A probing function for a probing hash table
+ * @template K the type of keys
+ * @param length the length of the arrays in the hash table
+ * @param key the key to probe for
+ * @param i the probe index (starts at 0)
+ * @returns the array index to examine
+ */
 export type ProbingFunction<K> = (length: number, key: K, i: number) => number;
 
+//from hashtables.ts
+/**
+ * A hash function for use in hash tables
+ * It should have good dispersion, but does not need to be difficult to invert or predict.
+ * @template K the type of keys
+ * @param key the key
+ * @returns the hash of the key.
+ */
 export type HashFunction<K> = (key: K) => number;
 
+/**
+ * Hashtable that stores all tasks
+ */
 export type TaskStorage = Hashtable<number, Task>;
 
+//from hashtables.ts
+//quadratic probing with a given hash function
 export function quadratic_probing_function<K>(hash_function: HashFunction<K>): ProbingFunction<K> {
     return (length: number, key: K, i: number) => (hash_function(key) + i*i) % length;
 }
 
+/**
+ * Hash function
+ * @param key 
+ * @returns ???
+ */
 export function hash_function(key: number): number {
     return key; //change this later
 }
 
+//from hashtables.ts
+/**
+ * Create an empty hash table.
+ * @template K the type of keys
+ * @template V the type of values
+ * @param length the maximum number of elements to accomodate
+ * @param probe the probing function
+ * @precondition the key type K contains neither null nor undefined
+ * @returns an empty hash table
+ */
 export function create_empty_hash<K, V>(length: number, probe: ProbingFunction<K>): Hashtable<K, V> {
     return { keys: new Array(length), data: new Array(length), probe: probe, size: 0 };
 }
 
+//from hashtables.ts
+// helper function implementing probing from a given probe index i
 export function probe_from<K, V>({keys, probe}: Hashtable<K, V>, key: K, i: number): number | undefined {
     function step(i: number): number | undefined {
         const index = probe(keys.length, key, i);
@@ -94,6 +133,15 @@ export function probe_from<K, V>({keys, probe}: Hashtable<K, V>, key: K, i: numb
     return step(i);
 }
 
+//from hashtables.ts
+/**
+ * Search a hash table for the given key.
+ * @template K the type of keys
+ * @template V the type of values
+ * @param tab the hash table to scan
+ * @param key the key to scan for
+ * @returns the associated value, or undefined if it does not exist.
+ */
 export function ph_lookup<K, V>(tab: Hashtable<K,V>, key: K): V | undefined {
     const index = probe_from(tab, key, 0);
     return index === undefined
@@ -101,6 +149,17 @@ export function ph_lookup<K, V>(tab: Hashtable<K,V>, key: K): V | undefined {
            : tab.data[index];
 }
 
+//from hashtables.ts
+/**
+ * Insert a key-value pair into a probing hash table.
+ * Overwrites the existing value associated with the key, if any.
+ * @template K the type of keys
+ * @template V the type of values
+ * @param tab the hash table
+ * @param key the key to insert at
+ * @param value the value to insert
+ * @returns true if the insertion succeeded (the hash table was not full)
+ */
 export function ph_insert<K, V>(tab: Hashtable<K,V>, key: K, value: V): boolean {
     function insertAt(index: number): true {
         tab.keys[index] = key;
@@ -122,6 +181,15 @@ export function ph_insert<K, V>(tab: Hashtable<K,V>, key: K, value: V): boolean 
     return tab.keys.length === tab.size ? false : insertFrom(0);
 }
 
+//from hashtables.ts
+/**
+ * Delete a key-value pair from a probing hash table.
+ * @template K the type of keys
+ * @template V the type of values
+ * @param tab the hash table
+ * @param key the key to delete
+ * @returns true if the key existed
+ */
 export function ph_delete<K, V>(tab: Hashtable<K,V>, key: K): boolean {
     const index = probe_from(tab, key, 0);
     if (index === undefined) {
@@ -132,4 +200,3 @@ export function ph_delete<K, V>(tab: Hashtable<K,V>, key: K): boolean {
         return true;
     }
 }
-
