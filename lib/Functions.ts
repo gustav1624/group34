@@ -7,7 +7,7 @@ export function create_project(title: string): Project {
 }
 
 function generate_id() {
-    return Math.floor((Date.now() / 1000) % 1000 + Math.random() * 5000);
+    return Date.now();
 }
 
 export function create_task(title: string, description: string, priority: number): Task {
@@ -19,8 +19,4 @@ export function create_task(title: string, description: string, priority: number
         status: false,
         priority: priority
     };
-}
-
-for (let i = 0; i < 100; i++) {
-    console.log(generate_id());
 }
