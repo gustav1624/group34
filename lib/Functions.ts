@@ -69,8 +69,12 @@ export function assign_task(user: User, task: Task): void {
 
 export function edit_task(task: Task, new_title: string, new_description: string, reset_subtasks: boolean,
     new_status: boolean, new_priority: number): void {
-        task.title = new_title;
-        task.description = new_description;
+        if (new_title !== "") {
+            task.title = new_title;
+        }
+        if (new_description !== "") {
+            task.description = new_description;
+        }
         if (reset_subtasks) {
             task.subtasks = [];
         }
@@ -78,5 +82,18 @@ export function edit_task(task: Task, new_title: string, new_description: string
         task.priority = new_priority;
 }
 
-export function edit_task_user_input(task: Task | any): void {
+export function edit_task_user_input(task: Task): void {
+    const new_title = prompt("New title: ");
+    const new_description = prompt("New description: ");
+    let reset_subtasks = false ;
+    if (prompt("Reset subtasks? (y/n): ") === "y") {
+        reset_subtasks = true;
+    }
+    let new_status = false;
+    if (prompt("New status: ") === "true") {
+        new_status = true;
+    }
+    const new_priority = +prompt("New priority: ");
+    edit_task(task, new_title, new_description, reset_subtasks, new_status, new_priority);
 }
+
