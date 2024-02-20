@@ -32,3 +32,14 @@ export function add_subtask(title: string, id: number, description: string, Task
 export function assign_task(user: User, task: Task): void {
     user.task_ids.push(task.id);
 }
+
+export function edit_task(task: Task, new_title: string, new_description: string, reset_subtasks: boolean,
+    new_status: boolean, new_priority: number): void {
+        task.title = new_title;
+        task.description = new_description;
+        if (reset_subtasks) {
+            task.subtasks = [];
+        }
+        task.status = new_status;
+        task.priority = new_priority;
+}
