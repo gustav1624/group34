@@ -62,3 +62,7 @@ export function get_task_progress(Task: Task): number {
         return completed / total;
     }
 }
+
+export function assign_task(user: User, task: Task): void {
+    user.task_ids.push(task.id);
+}
