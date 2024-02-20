@@ -90,6 +90,11 @@ export type HashFunction<K> = (key: K) => number;
  */
 export type TaskStorage = Hashtable<number, Task>;
 
+/**
+ * Defining prompt()
+ */
+export const prompt = require('prompt-sync')();
+
 //from hashtables.ts
 //quadratic probing with a given hash function
 export function quadratic_probing_function<K>(hash_function: HashFunction<K>): ProbingFunction<K> {

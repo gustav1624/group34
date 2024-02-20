@@ -1,5 +1,5 @@
 import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunction, 
-         TaskStorage, quadratic_probing_function, create_empty_hash, ph_delete, ph_insert, 
+         TaskStorage, prompt, quadratic_probing_function, create_empty_hash, ph_delete, ph_insert, 
          ph_lookup } from "./exports";
 
 export function create_project(title: string): Project {
@@ -76,4 +76,7 @@ export function edit_task(task: Task, new_title: string, new_description: string
         }
         task.status = new_status;
         task.priority = new_priority;
+}
+
+export function edit_task_user_input(task: Task | any): void {
 }
