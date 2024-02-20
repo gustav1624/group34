@@ -28,6 +28,40 @@ export function add_subtask(title: string, id: number, description: string, Task
     Task.subtasks === undefined ? Task.subtasks = [st] : Task.subtasks.concat([st]);
 }
 
+/**
+ * Takes an array of task ID's and returns an array of tasks from a hashtable.
+ */
+export function tasks_to_array(IDS: Array<number>, task_table: TaskStorage): Array<Task> {
+    const res: Array<Task> = [];
+    for (let i = 0; i < IDS.length; i++) {
+        const val = ph_lookup(task_table, IDS[i]);
+        if (val !== undefined) {
+            res.push(val);
+        }
+    }
+    return res;
+}
+
+/**
+ * Returns the progress of a task in percent. 
+ * @param Task - A Valid task
+ * @returns 1 if task is completed, otherwise a number inbetween 0 and 1 calcuated as the number of 
+ * completed subtasks divided by the number of subtasks
+ */
+export function get_task_progress(Task: Task): number {
+    if (Task.subtasks === undefined || Task.status === true) {
+        return Task.status === false ? 0 : 1;
+    }
+    else {
+        let total = 0;
+        let completed = 0;
+        for (let i = 0; i < Task.subtasks.length; i++) {
+            Task.subtasks[i].status === true ? completed++ : completed = completed;
+            total++
+        } 
+        return completed / total;
+    }
+}
 
 export function assign_task(user: User, task: Task): void {
     user.task_ids.push(task.id);
