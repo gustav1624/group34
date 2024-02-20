@@ -19,7 +19,7 @@ export type Task = {
     title: string, 
     id: number, 
     description: string, 
-    subtasks?: string, 
+    subtasks?: Array<SubTask>, 
     status: boolean, 
     priority: number 
 };

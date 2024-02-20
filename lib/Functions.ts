@@ -10,8 +10,6 @@ function generate_id(is_subtask: boolean) {
     const num = Date.now();
     return is_subtask ? parseInt("9".concat(num.toString()))
                       : parseInt("1".concat(num.toString()));
-    
-    
 }
 
 export function create_task(title: string, description: string, priority: number): Task {
@@ -25,5 +23,7 @@ export function create_task(title: string, description: string, priority: number
     };
 }
 
-console.log(generate_id(false));
-console.log(generate_id(true));
+export function add_subtask(title: string, id: number, description: string, Task: Task): void {
+    const st = { title: title, id: id, description: description, status: false };
+    Task.subtasks === undefined ? Task.subtasks = [st] : Task.subtasks.concat([st]);
+}
