@@ -27,3 +27,8 @@ export function add_subtask(title: string, id: number, description: string, Task
     const st = { title: title, id: id, description: description, status: false };
     Task.subtasks === undefined ? Task.subtasks = [st] : Task.subtasks.concat([st]);
 }
+
+
+export function assign_task(user: User, task: Task): void {
+    user.task_ids.push(task.id);
+}
