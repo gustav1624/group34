@@ -160,7 +160,22 @@ export function task_to_project(task: Task, project: Project): void {
 }
 
 /**
- * Removes a task from the project hashtable
+ * Prints out all the tasks in a project as the title, id and progress for the task.
+ * @param project Project - a project
+ */
+export function overview_project(project: Project): void {
+    console.log("Tasks in project:");
+    for (let i = 0; i < project.task_ids.length; i++) {
+        const task = ph_lookup(project.task_table, project.task_ids[i]);
+        if (task !== undefined) {
+            console.log("Title: ".concat(task.title).concat(" | ID").concat(task.id.toString()).
+                        concat(" | Progress").concat(get_task_progress(task).toString()));
+            console.log("");
+        } 
+    }
+}
+
+/** Removes a task from the project hashtable
  * @param task Task - the task to remove from the tasktable
  * @param project Project - the project from which the task will be removed from
  * @modified modifies the input project
@@ -177,10 +192,6 @@ export function remove_task_project(task: Task, project: Project): void {
  */
 export function access_task(id: number, project: Project): Task | undefined {
     return ph_lookup(project.task_table, id);
-}
-
-export function overview_project(project: Project): void {
-
 }
 
 /**
