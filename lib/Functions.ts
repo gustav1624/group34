@@ -128,7 +128,7 @@ export function edit_task(task: Task, new_title: string, new_description: string
 
 /**
  * Edits a task field by field by using prompts given to the user
- * @param task task - the task to be edited
+ * @param task Task - the task to be edited
  * @modifies modifies the input task 
  */
 export function edit_task_user_input(task: Task): void {
@@ -148,10 +148,30 @@ export function edit_task_user_input(task: Task): void {
 
 /**
  * Adds a task to the project hashtable
- * @param task 
- * @param project 
+ * @param task Task - the task to add to the tasktable
+ * @param project Project - the project to which the task will be added to
  * @modifies modifies the input project
  */
 export function task_to_project(task: Task, project: Project): void {
     ph_insert(project.task_table, task.id, task);
+}
+
+/**
+ * Removes a task from the project hashtable
+ * @param task Task - the task to remove from the tasktable
+ * @param project Project - the project from which the task will be removed from
+ * @modified modifies the input project
+ */
+export function remove_task_project(task: Task, project: Project): void {
+    ph_delete(project.task_table, task.id);
+}
+
+/**
+ * Access a task from the project hashtable
+ * @param id number - the task id
+ * @param project Project - the project that the task is stored in
+ * @returns returns the task
+ */
+export function access_task(id: number, project: Project): Task | undefined {
+    return ph_lookup(project.task_table, id);
 }
