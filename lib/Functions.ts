@@ -1,6 +1,7 @@
 import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunction, 
          TaskStorage, prompt, quadratic_probing_function, create_empty_hash, ph_delete, ph_insert, 
-         ph_lookup } from "./exports";
+         ph_lookup, 
+         Category} from "./exports";
 
 /**
  * Creates an empty project
@@ -180,4 +181,13 @@ export function access_task(id: number, project: Project): Task | undefined {
 
 export function overview_project(project: Project): void {
 
+}
+
+/**
+ * Creates a new empty category
+ * @param title string - the title of the new category
+ * @returns returns the category
+ */
+export function empty_category(title: string): Category {
+    return { title: title, task_ids: [] };
 }
