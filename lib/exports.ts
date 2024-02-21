@@ -3,7 +3,14 @@
  * @param title the name of the project
  * @param task_table a hashtable of tasks
  */
-export type Project = { title: string, task_table: TaskStorage };
+export type Project = { title: string, task_table: TaskStorage, task_ids: Array<number>, categories: Array<Category> };
+
+/**
+ * A record representing a category
+ * @param title the name of the category
+ * @param task_ids an array of task ids belonging to the category
+ */
+export type Category = { title: string, task_ids: Array<number> }
 
 /**
  * A record representing a task

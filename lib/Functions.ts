@@ -8,7 +8,8 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
  * @returns Project - an empty project
  */
 export function create_project(title: string): Project {
-    return { title: title, task_table: create_empty_hash(43, quadratic_probing_function(hash_function)) };
+    return { title: title, task_table: create_empty_hash(43, quadratic_probing_function(hash_function)),
+             task_ids: [], categories: [] };
 }
 
 /**
@@ -18,7 +19,7 @@ export function create_project(title: string): Project {
  */
 export function generate_id(is_subtask: boolean) {
     const num = Date.now();
-    const xxxx = (Math.random() * 9999).toString();
+    const xxxx = (Math.floor(Math.random() * 9999)).toString();
     return is_subtask ? parseInt("9".concat(num.toString()).concat(xxxx))
                       : parseInt("1".concat(num.toString()).concat(xxxx));
 }
@@ -154,6 +155,7 @@ export function edit_task_user_input(task: Task): void {
  */
 export function task_to_project(task: Task, project: Project): void {
     ph_insert(project.task_table, task.id, task);
+    project.task_ids.push(task.id);
 }
 
 /**
@@ -174,4 +176,8 @@ export function remove_task_project(task: Task, project: Project): void {
  */
 export function access_task(id: number, project: Project): Task | undefined {
     return ph_lookup(project.task_table, id);
+}
+
+xport function overview_project(project: Project): void {
+
 }
