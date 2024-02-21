@@ -217,3 +217,27 @@ export function task_to_category(task: Task, project: Project): void {
         }
     }
 }
+
+/**
+ * Prints out all information about chosen task
+ * @param task Task - the task to show information about
+ */
+function view_task(task: Task): void {
+    console.log("Title:", task.title);
+    console.log("ID:", task.id);
+    console.log("Description:", task.description)
+    console.log("Status:", task.status)
+    console.log("Priority", task.priority)
+    if(task.subtasks !== undefined) {
+        console.log("Subtasks:")
+        for(let i = 0; i < task.subtasks.length; i++) {
+            console.log("Title", task.subtasks[i].title);
+            console.log("ID", task.subtasks[i].id);
+            console.log("Description", task.subtasks[i].description);
+            console.log("Status", task.subtasks[i].status);
+        }
+    } 
+    else {
+        console.log("No subtasks available");
+    }
+}
