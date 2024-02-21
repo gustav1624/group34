@@ -145,3 +145,12 @@ export function edit_task_user_input(task: Task): void {
     edit_task(task, new_title, new_description, reset_subtasks, new_status, new_priority);
 }
 
+/**
+ * Adds a task to the project hashtable
+ * @param task 
+ * @param project 
+ * @modifies modifies the input project
+ */
+export function task_to_project(task: Task, project: Project): void {
+    ph_insert(project.task_table, task.id, task);
+}
