@@ -191,3 +191,18 @@ export function overview_project(project: Project): void {
 export function empty_category(title: string): Category {
     return { title: title, task_ids: [] };
 }
+
+/**
+ * Asks the user if it wants to add a task to each of the existing categories
+ * @param task Task - the task to add to a category
+ * @param project Project - the project to which a task will be added to its category array
+ */
+export function task_to_category(task: Task, project: Project): void {
+    for (let i = 0; i < project.categories.length; i++) {
+        const prompt_string = "Add to category: ".concat(project.categories[i].title).concat("(y/n)");
+        const input = prompt(prompt_string);
+        if (input === "y") {
+            project.categories[i].task_ids.push(task.id);
+        }
+    }
+}
