@@ -11,5 +11,5 @@ test("Generate ID", () => {
     const t1 = generate_id(false);
     const t2 = generate_id(false);
     const t3 = generate_id(false);
-    expect(t1 === t2 && t2 === t3).toBeFalsy();
+    expect(t1 === t2 || t2 === t3 || t1 === t3).toBeFalsy();
 });
