@@ -178,6 +178,6 @@ export function access_task(id: number, project: Project): Task | undefined {
     return ph_lookup(project.task_table, id);
 }
 
-xport function overview_project(project: Project): void {
+export function overview_project(project: Project): void {
 
 }
