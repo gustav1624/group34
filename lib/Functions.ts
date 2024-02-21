@@ -100,6 +100,16 @@ export function assign_task(user: User, task: Task): void {
     user.task_ids.push(task.id);
 }
 
+/**
+ * Edits the parameters of an existing task
+ * @param task Task - The task to be edited
+ * @param new_title string - The new title
+ * @param new_description string - The new descirption
+ * @param reset_subtasks boolean - true if subtasks are to be reset, else false.
+ * @param new_status boolean - the new status of the task
+ * @param new_priority number - the new priority of the task
+ * @modifies modifies the input task 
+ */
 export function edit_task(task: Task, new_title: string, new_description: string, reset_subtasks: boolean,
     new_status: boolean, new_priority: number): void {
         if (new_title !== "") {
@@ -115,6 +125,11 @@ export function edit_task(task: Task, new_title: string, new_description: string
         task.priority = new_priority;
 }
 
+/**
+ * Edits a task field by field by using prompts given to the user
+ * @param task task - the task to be edited
+ * @modifies modifies the input task 
+ */
 export function edit_task_user_input(task: Task): void {
     const new_title = prompt("New title: ");
     const new_description = prompt("New description: ");
