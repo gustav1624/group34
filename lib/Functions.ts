@@ -180,7 +180,7 @@ export function overview_project(project: Project): void {
  * @param project Project - the project from which the task will be removed from
  * @modified modifies the input project
  */
-export function remove_task_project(task: Task, project: Project): void {
+export function remove_task_from_project(task: Task, project: Project): void {
     ph_delete(project.task_table, task.id);
 }
 
