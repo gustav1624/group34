@@ -85,8 +85,7 @@ test("Assign task", () => {
     assign_task(user1, test_task3);
     const expected_result2 = {name: "A", task_ids: [test_task.id, test_task2.id, test_task3.id]};
     expect(user1).toEqual(expected_result2);
-
-})
+});
 
 test("Task progress", () => {
     const test_task = create_task("Task 1", "Description", 1);
