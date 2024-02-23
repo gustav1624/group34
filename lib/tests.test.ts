@@ -3,7 +3,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, Category } from "./exports";
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
-    empty_category, get_task_progress, edit_task, assign_task } from "./Functions";
+    empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed } from "./Functions";
 
 test("Create project", () => {
     const test_project = create_project("Project 1");
@@ -112,4 +112,23 @@ test("Edit task", () => {
         priority: 1
     };
     expect(test_task_expected).toEqual(test_task);
+});
+
+test("filter_completed", () => {
+    const tsk1 = create_task("task 1", "description", 1);
+    const tsk2 = create_task("task 2", "description", 1);
+    const tsk3 = create_task("task 3", "description", 1);
+    const tsk4 = create_task("task 4", "description", 1);
+    complete_task(tsk1);
+    complete_task(tsk4);
+    const tsk_arr = [tsk1, tsk2, tsk3, tsk4];
+    expect(filter_completed(tsk_arr)).toEqual([tsk2, tsk3]);
+});
+
+test("get_task_progress", () => {
+    let tsk = create_task("task", "much progress here!", 5);
+    add_subtask("st 1", "desc 1", tsk);
+    add_subtask("st 2", "desc 2", tsk);
+    tsk.subtasks![0].status = true;
+    expect(get_task_progress(tsk)).toBeCloseTo(0.5);
 });

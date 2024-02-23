@@ -168,8 +168,9 @@ export function overview_project(project: Project): void {
     for (let i = 0; i < project.task_ids.length; i++) {
         const task = ph_lookup(project.task_table, project.task_ids[i]);
         if (task !== undefined) {
-            console.log("Title: ".concat(task.title).concat(" | ID").concat(task.id.toString()).
-                        concat(" | Progress").concat(get_task_progress(task).toString()));
+            console.log("Title: ".concat(task.title).concat(" | ID: ").concat(task.id.toString()).
+                        concat(" | Progress: ").concat((Math.round(get_task_progress(task) * 100)).toString()).
+                        concat("%"));
             console.log("");
         } 
     }
@@ -252,6 +253,7 @@ export function complete_task(task: Task): void {
     task.status = true;
 }
 
+
 /**
  * Sorts an array of tasks alphabetically in terms of the title.
  * @param task_array An array of tasks
@@ -290,4 +292,3 @@ export function priority_sort(task_array: Array<Task>): Array<Task> {
 export function filter_completed(task_array: Array<Task>): Array<Task> {
     return task_array.filter((a) => a.status === true);
 }
-
