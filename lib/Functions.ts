@@ -52,7 +52,7 @@ export function create_task(title: string, description: string, priority: number
  */
 export function add_subtask(title: string, description: string, Task: Task): void {
     const st = { title: title, id: generate_id(true), description: description, status: false };
-    Task.subtasks === undefined ? Task.subtasks = [st] : Task.subtasks.concat([st]);
+    Task.subtasks === undefined ? Task.subtasks = [st] : Task.subtasks[Task.subtasks.length] = st;
 }
 
 /**

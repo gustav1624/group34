@@ -3,9 +3,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, Category } from "./exports";
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
-    empty_category, 
-    test_sort} from "./Functions";
-
+    empty_category, get_task_progress, test_sort, edit_task, assign_task } from "./Functions";
 
 test("Create project", () => {
     const test_project = create_project("Project 1");
@@ -73,4 +71,45 @@ test("Alphabetical sort, priority sort", () => {
 
     const expected2 = [t5, t4, t3, t2, t1];
     expect(priority_sort(tasks1)).toEqual(expected2);
+});
+
+test("Assign task", () => {
+    const test_task = create_task("Task 1", "Task instructions", 2);
+    let user1 = {name: "A", task_ids: []};
+    assign_task(user1, test_task);
+    const expected_result = {name: "A", task_ids: [test_task.id]};
+    expect(user1).toEqual(expected_result);
+    const test_task2 = create_task("Task 2", "Task instructions", 2);
+    const test_task3 = create_task("Task 3", "Task instructions", 2);
+    assign_task(user1, test_task2);
+    assign_task(user1, test_task3);
+    const expected_result2 = {name: "A", task_ids: [test_task.id, test_task2.id, test_task3.id]};
+    expect(user1).toEqual(expected_result2);
+});
+
+test("Task progress", () => {
+    const test_task = create_task("Task 1", "Description", 1);
+    add_subtask("Subtask 1", "Description", test_task);
+    add_subtask("Subtask 2", "Description", test_task);
+    if (test_task.subtasks !== undefined) {
+        test_task.subtasks[0].status = true;
+    }
+    const test_progress = get_task_progress(test_task);
+    const test_progress_expected = 0.5;
+    expect(test_progress_expected).toEqual(test_progress);
+});
+
+test("Edit task", () => {
+    const test_task = create_task("Task 1", "Bad description", 2);
+    edit_task(test_task, "Task 2", "Good description", false, true, 1);
+    test_task.id = 1;
+    const test_task_expected = { 
+        title: "Task 2", 
+        id: 1, 
+        description: "Good description", 
+        subtasks: undefined, 
+        status: true, 
+        priority: 1
+    };
+    expect(test_task_expected).toEqual(test_task);
 });
