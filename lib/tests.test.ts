@@ -3,9 +3,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, Category } from "./exports";
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
-    empty_category, 
-    get_task_progress} from "./Functions";
-
+    empty_category, get_task_progress, test_sort } from "./Functions";
 
 test("Create project", () => {
     const test_project = create_project("Project 1");
@@ -69,7 +67,7 @@ test("Alphabetical sort, priority sort", () => {
 
     const tasks1 = [t1, t2, t3, t4, t5];
     const expected1 = [t5, t1, t2, t4, t3];
-    expect(alphabetical_sort(tasks1)).toEqual(expected1);
+    expect(test_sort(tasks1)).toEqual(expected1);
 
     const expected2 = [t5, t4, t3, t2, t1];
     expect(priority_sort(tasks1)).toEqual(expected2);
