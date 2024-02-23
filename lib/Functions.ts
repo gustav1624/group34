@@ -271,10 +271,6 @@ export function alphabetical_sort(task_array: Array<Task>): Array<Task> {
     });
 }
 
-export function test_sort(task_array: Array<Task>): Array<Task> {
-    return task_array.sort((a, b) => a.title.localeCompare(b.title));
-}
-
 /**
  * Sorts an array of tasks in order of priority.
  * @param task_array An array of tasks
@@ -283,7 +279,7 @@ export function test_sort(task_array: Array<Task>): Array<Task> {
 export function priority_sort(task_array: Array<Task>): Array<Task> {
     return task_array.sort((a, b) => {
         return a.priority - b.priority;
-    });
+    }).reverse();
 }
 
 /**
@@ -295,4 +291,3 @@ export function filter_completed(task_array: Array<Task>): Array<Task> {
     return task_array.filter((a) => a.status === true);
 }
 
-console.log("aalpha" > "alpha");
