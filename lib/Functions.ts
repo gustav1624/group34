@@ -244,6 +244,15 @@ function view_task(task: Task): void {
 }
 
 /**
+ * Completes a task
+ * @param task a task
+ * @modifies changes the status of the task to true
+ */
+export function complete_task(task: Task): void {
+    task.status = true;
+}
+
+/**
  * Sorts an array of tasks alphabetically in terms of the title.
  * @param task_array An array of tasks
  * @returns returns an array of tasks sorted alphabetially
