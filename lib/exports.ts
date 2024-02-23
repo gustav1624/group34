@@ -20,7 +20,7 @@ export type Category = { title: string, task_ids: Array<number> }
  * @param subtasks a structure of smaller tasks
  * @param status true if the task is completed
  * @param priority a number representing the priority of the task
- * @invariant the priority number must be a positive integer
+ * @invariant the priority number must be a positive integer between 1 and 5
  */
 export type Task = { 
     title: string, 

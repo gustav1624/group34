@@ -3,7 +3,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, 
     Category} from "./exports";
 
-import { create_project, create_task, generate_id } from "./Functions";
+import { add_subtask, create_project, create_task, generate_id } from "./Functions";
 
 
 test("Create project", () => {
@@ -32,4 +32,22 @@ test("Generate ID", () => {
     const t2 = generate_id(false);
     const t3 = generate_id(false);
     expect(t1 === t2 || t2 === t3 || t1 === t3).toBeFalsy();
+});
+
+test("Add subtask", () => {
+    let test_task = create_task("Task 1", "Task instructions", 2);
+    test_task.id = 1;
+    const subtask = add_subtask("St1", "Subtask instructions", test_task);
+    if(test_task.subtasks !== undefined) {
+        test_task.subtasks[0].id = 3;
+    }
+    const test_task_expected = { 
+        title: "Task 1", 
+        id: 1, 
+        description: "Task instructions", 
+        subtasks: [{title: "St1", id: 3, description: "Subtask instructions", status: false}], 
+        status: false, 
+        priority: 2 
+    };
+    expect(test_task).toEqual(test_task_expected);
 });
