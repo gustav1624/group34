@@ -3,7 +3,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, Category } from "./exports";
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
-    empty_category, get_task_progress, test_sort } from "./Functions";
+    empty_category, get_task_progress, test_sort, edit_task } from "./Functions";
 
 test("Create project", () => {
     const test_project = create_project("Project 1");
@@ -83,4 +83,19 @@ test("Task progress", () => {
     const test_progress = get_task_progress(test_task);
     const test_progress_expected = 0.5;
     expect(test_progress_expected).toEqual(test_progress);
-})
+});
+
+test("Edit task", () => {
+    const test_task = create_task("Task 1", "Bad description", 2);
+    edit_task(test_task, "Task 2", "Good description", false, true, 1);
+    test_task.id = 1;
+    const test_task_expected = { 
+        title: "Task 2", 
+        id: 1, 
+        description: "Good description", 
+        subtasks: undefined, 
+        status: true, 
+        priority: 1
+    };
+    expect(test_task_expected).toEqual(test_task);
+});
