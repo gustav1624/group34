@@ -3,8 +3,8 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, Category } from "./exports";
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
-    empty_category, 
-    assign_task} from "./Functions";
+    empty_category, assign_task, get_task_progress, test_sort} from "./Functions";
+
 
 
 test("Create project", () => {
@@ -69,7 +69,7 @@ test("Alphabetical sort, priority sort", () => {
 
     const tasks1 = [t1, t2, t3, t4, t5];
     const expected1 = [t5, t1, t2, t4, t3];
-    expect(alphabetical_sort(tasks1)).toEqual(expected1);
+    expect(test_sort(tasks1)).toEqual(expected1);
 
     const expected2 = [t5, t4, t3, t2, t1];
     expect(priority_sort(tasks1)).toEqual(expected2);
@@ -87,4 +87,17 @@ test("Assign task", () => {
     assign_task(user1, test_task3);
     const expected_result2 = {name: "A", task_ids: [test_task.id, test_task2.id, test_task3.id]};
     expect(user1).toEqual(expected_result2);
+
+})
+
+test("Task progress", () => {
+    const test_task = create_task("Task 1", "Description", 1);
+    add_subtask("Subtask 1", "Description", test_task);
+    add_subtask("Subtask 2", "Description", test_task);
+    if (test_task.subtasks !== undefined) {
+        test_task.subtasks[0].status = true;
+    }
+    const test_progress = get_task_progress(test_task);
+    const test_progress_expected = 0.5;
+    expect(test_progress_expected).toEqual(test_progress);
 })
