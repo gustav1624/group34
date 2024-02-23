@@ -9,7 +9,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
  * @returns Project - an empty project
  */
 export function create_project(title: string): Project {
-    return { title: title, task_table: create_empty_hash(43, quadratic_probing_function(hash_function)),
+    return { title: title, task_table: create_empty_hash(97, quadratic_probing_function(hash_function)),
              task_ids: [], categories: [] };
 }
 
@@ -175,7 +175,8 @@ export function overview_project(project: Project): void {
     }
 }
 
-/** Removes a task from the project hashtable
+/** 
+ * Removes a task from the project hashtable
  * @param task Task - the task to remove from the tasktable
  * @param project Project - the project from which the task will be removed from
  * @modified modifies the input project
@@ -240,4 +241,43 @@ function view_task(task: Task): void {
     else {
         console.log("No subtasks available");
     }
+}
+
+/**
+ * Sorts an array of tasks alphabetically in terms of the title.
+ * @param task_array An array of tasks
+ * @returns returns an array of tasks sorted alphabetially
+ */
+export function alphabetical_sort(task_array: Array<Task>): Array<Task> {
+    return task_array.sort((a, b) => {
+        if (a.title < b.title) {
+            return -1;
+        }
+        else if (a.title > b.title) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    });
+}
+
+/**
+ * Sorts an array of tasks in order of priority.
+ * @param task_array An array of tasks
+ * @returns returns an array of tasks sorted in order of priority
+ */
+export function priority_sort(task_array: Array<Task>): Array<Task> {
+    return task_array.sort((a, b) => {
+        return a.priority - b.priority;
+    });
+}
+
+/**
+ * Filters an array of tasks to omit completed tasks
+ * @param task_array An array of tasks
+ * @returns returns an array of tasks excluding any completed tasks
+ */
+export function filter_completed(task_array: Array<Task>): Array<Task> {
+    return task_array.filter((a) => a.status === true);
 }
