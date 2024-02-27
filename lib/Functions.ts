@@ -290,5 +290,5 @@ export function priority_sort(task_array: Array<Task>): Array<Task> {
  * @returns returns an array of tasks excluding any completed tasks
  */
 export function filter_completed(task_array: Array<Task>): Array<Task> {
-    return task_array.filter((a) => a.status === true);
+    return task_array.filter((a) => a.status === false);
 }
