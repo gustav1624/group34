@@ -3,7 +3,8 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
     ph_lookup, Category } from "./exports";
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
-    empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed } from "./Functions";
+    empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed, 
+    task_to_project, access_task, remove_task_from_project } from "./Functions";
 
 test("Create project", () => {
     const test_project = create_project("Project 1");
@@ -131,4 +132,16 @@ test("get_task_progress", () => {
     add_subtask("st 2", "desc 2", tsk);
     tsk.subtasks![0].status = true;
     expect(get_task_progress(tsk)).toBeCloseTo(0.5);
+});
+
+test("Task to project, Access task, Remove_task", () => {
+    const test_project = create_project("Project 1");
+    const test_task = create_task("Task 1", "Task instructions", 2);
+    task_to_project(test_task, test_project);
+    expect(test_project.task_ids[0]).toBe(test_task.id);
+    expect(access_task(test_task.id, test_project)).toBe(test_task);
+    const test_task2 = create_task("Task 2", "Instructions", 1);
+    task_to_project(test_task2, test_project);
+    remove_task_from_project(test_task, test_project);
+    expect(test_project.task_ids[0] === test_task.id).toBe(false);
 });

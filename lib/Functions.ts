@@ -177,13 +177,15 @@ export function overview_project(project: Project): void {
 }
 
 /** 
- * Removes a task from the project hashtable
+ * Removes a task from the project hashtable and the project task_ids array
  * @param task Task - the task to remove from the tasktable
  * @param project Project - the project from which the task will be removed from
  * @modified modifies the input project
  */
 export function remove_task_from_project(task: Task, project: Project): void {
     ph_delete(project.task_table, task.id);
+    const new_task_ids = project.task_ids.filter((a) => a !== task.id);
+    project.task_ids = new_task_ids;
 }
 
 /**
