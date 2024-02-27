@@ -4,7 +4,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
     empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed, 
-    task_to_project, access_task, remove_task_from_project, overview_project, edit_task_user_input } from "./Functions";
+    task_to_project, access_task, remove_task_from_project, overview_project, edit_task_user_input, view_task } from "./Functions";
 
 
 test("Create project", () => {
@@ -148,8 +148,9 @@ test("Task to project, Access task, Remove_task", () => {
 });
 
 test("Overview Project", () => {
-    const test_project = create_project("Project 1");
     const log_spy = jest.spyOn(global.console, "log");
+
+    const test_project = create_project("Project 1");
     const test_task = create_task("Task 1", "Instructions", 1);
     test_task.id = 1;
     task_to_project(test_task, test_project);
@@ -160,6 +161,28 @@ test("Overview Project", () => {
     expect(log_spy).toHaveBeenCalledWith("Tasks in project:");
     expect(log_spy).toHaveBeenCalledWith("Title: Task 1 | ID: 1 | Progress: 0%");
     expect(log_spy).toHaveBeenCalledWith("");
+});
+
+test("View task", () => {
+    const log_spy = jest.spyOn(global.console, "log");
+
+    const test_task = create_task("Task 1", "Instructions", 1);
+    test_task.id = 1;
+
+    view_task(test_task);
+
+    expect(log_spy).toHaveBeenCalledWith("Title:", "Task 1");
+    expect(log_spy).toHaveBeenCalledWith("ID:", 1);
+    expect(log_spy).toHaveBeenCalledWith("Description:", "Instructions");
+    expect(log_spy).toHaveBeenCalledWith("Status:", false);
+    expect(log_spy).toHaveBeenCalledWith("Priority:", 1);
+    expect(log_spy).toHaveBeenCalledWith("No subtasks available");
+
+    add_subtask("Subtask 1", "Small instructions", test_task);
+
+    view_task(test_task);
+
+    expect(log_spy).toHaveBeenCalledWith("Subtasks:");
 });
 
 /*

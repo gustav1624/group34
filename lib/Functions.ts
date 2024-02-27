@@ -231,7 +231,7 @@ export function view_task(task: Task): void {
     console.log("ID:", task.id);
     console.log("Description:", task.description)
     console.log("Status:", task.status)
-    console.log("Priority", task.priority)
+    console.log("Priority:", task.priority)
     if(task.subtasks !== undefined) {
         console.log("Subtasks:")
         for(let i = 0; i < task.subtasks.length; i++) {
