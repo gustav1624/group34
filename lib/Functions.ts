@@ -226,7 +226,7 @@ export function task_to_category(task: Task, project: Project): void {
  * Prints out all information about chosen task
  * @param task Task - the task to show information about
  */
-function view_task(task: Task): void {
+export function view_task(task: Task): void {
     console.log("Title:", task.title);
     console.log("ID:", task.id);
     console.log("Description:", task.description)
