@@ -8,7 +8,7 @@ import { add_subtask, create_project, create_task, generate_id, alphabetical_sor
     task_to_project, access_task, remove_task_from_project, view_task, overview_project } from "./lib/Functions";
 
 
-//Data
+//Main data
 let global_projects: Array<Project> = [];
 
 /**
@@ -33,6 +33,9 @@ function choose(alternatives: Array<string>): number {
     return input;
 }
 
+/**
+ * Menu function. Calls the main menu for the project planner
+ */
 function menu() {
     console.log("");
     console.log("PROJECT PLANNER");
@@ -59,16 +62,20 @@ function menu() {
     
 }
 
+/**
+ * Open project function. Calls a menu for opening projects
+ */
 function open_project() {
+    console.log("");
     console.log("opening project");
     let current = null;
     if (global_projects.length === 0) {
         console.log("You have no projects! Consider creating some.");
         menu();
     }
-
     else if (global_projects.length === 1) {
         current = global_projects[0];
+        console.log("");
         overview_project(current);
         
     }
@@ -83,14 +90,29 @@ function open_project() {
             }
         }
         current = global_projects[choices_index[choose(choices) - 1]];
+        console.log("");
         overview_project(current);
         
     }
-    //Editing project here
-
+    console.log("");
+    console.log("Choose an action: ");
+    const choice = choose(["Edit project", "Choose a different project", "Back"]);
+    if (choice === 1) {
+        edit_project();
+    }
+    else if (choice === 2) {
+        open_project();
+    }
+    else if (choice === 3) {
+        menu();
+    }
 }
 
+/**
+ * Calls a menu for creating a new project
+ */
 function create_new_project() {
+    console.log("");
     console.log("Creating a new project");
     const input: string = prompt("Choose a title for the project: ");
     global_projects.push(create_project(input));
@@ -98,6 +120,11 @@ function create_new_project() {
     menu();
 }
 
+/**
+ * Rebuilds an array of projects to not contain any undefined
+ * @param arr An array of projects
+ * @returns an array of projects
+ */
 function rebuild_project_array(arr: Array<Project>): Array<Project> {
     let new_arr: Array<Project> = [];
     for (let i = 0; i < arr.length; i++) {
@@ -108,4 +135,12 @@ function rebuild_project_array(arr: Array<Project>): Array<Project> {
     return new_arr;
 }
 
+/**
+ * Calls the edit project menu which allows editing projects
+ */
+function edit_project() {
+    console.log("edit project");
+}
+
+//main call
 menu();
