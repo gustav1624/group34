@@ -4,7 +4,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
     empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed, 
-    task_to_project, access_task, remove_task_from_project, overview_project, edit_task_user_input, view_task } from "./Functions";
+    task_to_project, access_task, remove_task_from_project, overview_project, edit_task_user_input, view_task, tasks_to_array } from "./Functions";
 
 
 test("Create project", () => {
@@ -183,6 +183,18 @@ test("View task", () => {
     view_task(test_task);
 
     expect(log_spy).toHaveBeenCalledWith("Subtasks:");
+});
+
+test("Tasks to array", () => {
+    const test_project = create_project("New project");
+    const test_task = create_task("Task 1", "Instructions", 2);
+    const test_task2 = create_task("Task 2", "Instructions 2", 2);
+    task_to_project(test_task, test_project);
+    task_to_project(test_task2, test_project);
+
+    const arr = tasks_to_array(test_project.task_ids, test_project.task_table);
+    
+    expect(arr).toEqual([test_task, test_task2]);
 });
 
 /*
