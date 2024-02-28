@@ -4,8 +4,17 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
     empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed, 
-    task_to_project, access_task, remove_task_from_project, view_task } from "./lib/Functions";
+    task_to_project, access_task, remove_task_from_project, view_task, overview_project } from "./lib/Functions";
 
+
+//Data
+let global_projects: Array<Project> = [];
+
+/**
+ * Function that displays different alternatives to the user which can be selected in the terminal
+ * @param alternatives An array of strings representing the alternatives that can be selected
+ * @returns Returns a number corresponding to the selected alternative
+ */
 function choose(alternatives: Array<string>): number {
     let input = 0;
     let numbers = [];
@@ -29,22 +38,62 @@ function menu() {
     console.log("");
     console.log("MAIN MENU");
 
-    const choice = choose(["Open project", "Create new project"]);
+    if (global_projects.length > 0) {
+        console.log("Current projects:");
+        for (let i = 0; i < global_projects.length; i++) {
+            console.log(global_projects[i].title);
+        }
+    }
+
+    const choice = choose(["Open project", "Create new project", "Exit"]);
     if (choice === 1) {
         open_project();
     }
     else if (choice === 2) {
         create_new_project();
+    } 
+    else if (choice === 3) {
+        return;
     }
     
 }
 
 function open_project() {
     console.log("opening project");
+    console.log(global_projects.length);
+    let current = null;
+    if (global_projects.length === 0) {
+        console.log("You have no projects! Consider creating some.");
+        menu();
+    }
+
+    else if (global_projects.length === 1) {
+        current = global_projects[0];
+        overview_project(current);
+        //Creating tasks and such here
+    }
+    else {
+        //Choose between all global projects
+    }
+    //Editing project here
 }
 
 function create_new_project() {
-    console.log("creating a new project");
+    console.log("Creating a new project");
+    const input: string = prompt("Choose a title for the project: ");
+    global_projects.push(create_project(input));
+    console.log("Project " + input + " created succesfully");
+    menu();
+}
+
+function rebuild_project_array(arr: Array<Project>): Array<Project> {
+    let new_arr: Array<Project> = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== undefined) {
+            new_arr.push(arr[i]);
+        }
+    }
+    return new_arr;
 }
 
 menu();

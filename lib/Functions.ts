@@ -165,14 +165,19 @@ export function task_to_project(task: Task, project: Project): void {
  */
 export function overview_project(project: Project): void {
     console.log("Tasks in project:");
-    for (let i = 0; i < project.task_ids.length; i++) {
-        const task = ph_lookup(project.task_table, project.task_ids[i]);
-        if (task !== undefined) {
-            console.log("Title: ".concat(task.title).concat(" | ID: ").concat(task.id.toString()).
-                        concat(" | Progress: ").concat((Math.round(get_task_progress(task) * 100)).toString()).
-                        concat("%"));
-            console.log("");
-        } 
+    if (project.task_ids.length === 0) {
+        console.log("Project is currently empty.");
+    }
+    else {
+        for (let i = 0; i < project.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, project.task_ids[i]);
+            if (task !== undefined) {
+                console.log("Title: ".concat(task.title).concat(" | ID: ").concat(task.id.toString()).
+                            concat(" | Progress: ").concat((Math.round(get_task_progress(task) * 100)).toString()).
+                            concat("%"));
+                console.log("");
+            } 
+        }
     }
 }
 
