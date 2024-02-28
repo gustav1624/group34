@@ -1,3 +1,4 @@
+import { Console, clear } from "console";
 import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunction, 
     TaskStorage, prompt, quadratic_probing_function, create_empty_hash, ph_delete, ph_insert, 
     ph_lookup, Category } from "./lib/exports";
@@ -60,7 +61,6 @@ function menu() {
 
 function open_project() {
     console.log("opening project");
-    console.log(global_projects.length);
     let current = null;
     if (global_projects.length === 0) {
         console.log("You have no projects! Consider creating some.");
@@ -70,12 +70,24 @@ function open_project() {
     else if (global_projects.length === 1) {
         current = global_projects[0];
         overview_project(current);
-        //Creating tasks and such here
+        
     }
     else {
-        //Choose between all global projects
+        console.log("Choose a project:");
+        const choices: Array<string> = [];
+        const choices_index: Array<number> = [];
+        for (let i = 0; i < global_projects.length; i++) {
+            if (global_projects[i] !== undefined) {
+                choices.push(global_projects[i].title);
+                choices_index.push(i);
+            }
+        }
+        current = global_projects[choices_index[choose(choices) - 1]];
+        overview_project(current);
+        
     }
     //Editing project here
+
 }
 
 function create_new_project() {

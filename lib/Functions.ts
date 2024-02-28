@@ -164,6 +164,7 @@ export function task_to_project(task: Task, project: Project): void {
  * @param project Project - a project
  */
 export function overview_project(project: Project): void {
+    console.log("project: " + project.title);
     console.log("Tasks in project:");
     if (project.task_ids.length === 0) {
         console.log("Project is currently empty.");
