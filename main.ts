@@ -1,3 +1,4 @@
+import { Console, clear } from "console";
 import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunction, 
     TaskStorage, prompt, quadratic_probing_function, create_empty_hash, ph_delete, ph_insert, 
     ph_lookup, Category } from "./lib/exports";
@@ -7,7 +8,7 @@ import { add_subtask, create_project, create_task, generate_id, alphabetical_sor
     task_to_project, access_task, remove_task_from_project, view_task, overview_project } from "./lib/Functions";
 
 
-//Data
+//Main data
 let global_projects: Array<Project> = [];
 
 /**
@@ -32,6 +33,9 @@ function choose(alternatives: Array<string>): number {
     return input;
 }
 
+/**
+ * Menu function. Calls the main menu for the project planner
+ */
 function menu() {
     console.log("");
     console.log("PROJECT PLANNER");
@@ -58,27 +62,56 @@ function menu() {
     
 }
 
+/**
+ * Open project function. Calls a menu for opening projects
+ */
 function open_project() {
+    console.log("");
     console.log("opening project");
-    console.log(global_projects.length);
-    let current = null;
+    let current: Project = create_project("placeholder");
     if (global_projects.length === 0) {
         console.log("You have no projects! Consider creating some.");
         menu();
     }
-
     else if (global_projects.length === 1) {
         current = global_projects[0];
+        console.log("");
         overview_project(current);
-        //Creating tasks and such here
     }
     else {
-        //Choose between all global projects
+        console.log("Choose a project:");
+        const choices: Array<string> = [];
+        const choices_index: Array<number> = [];
+        for (let i = 0; i < global_projects.length; i++) {
+            if (global_projects[i] !== undefined) {
+                choices.push(global_projects[i].title);
+                choices_index.push(i);
+            }
+        }
+        current = global_projects[choices_index[choose(choices) - 1]];
+        console.log("");
+        overview_project(current);
+        
     }
-    //Editing project here
+    console.log("");
+    console.log("Choose an action: ");
+    const choice = choose(["Edit project", "Choose a different project", "Back"]);
+    if (choice === 1) {
+        edit_project(current);
+    }
+    else if (choice === 2) {
+        open_project();
+    }
+    else if (choice === 3) {
+        menu();
+    }
 }
 
-function create_new_project() {
+/**
+ * Calls a menu for creating a new project
+ */
+function create_new_project(): void {
+    console.log("");
     console.log("Creating a new project");
     const input: string = prompt("Choose a title for the project: ");
     global_projects.push(create_project(input));
@@ -86,14 +119,44 @@ function create_new_project() {
     menu();
 }
 
-function rebuild_project_array(arr: Array<Project>): Array<Project> {
-    let new_arr: Array<Project> = [];
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] !== undefined) {
-            new_arr.push(arr[i]);
+/**
+ * Calls the edit project menu which allows editing a selected project
+ * @param project The project to edit
+ */
+function edit_project(project: Project): void {
+    console.log("edit project");
+    const choice1 = choose(["Edit project", "Delete project", "Choose another project", "Menu"]);
+    if (choice1 === 1) {
+        const choice2 = choose(["Add task", "Delete task", "Edit task", "Back"]);
+        if (choice2 === 1) {
+            //TODO
+        }
+        else if (choice2 === 2) {
+            //TODO
+        }
+        else if (choice2 === 3) {
+            //TODO
+        }
+        else if (choice2 === 4) {
+            //TODO
         }
     }
-    return new_arr;
+    else if (choice1 === 2) {
+        let new_arr: Array<Project> = [];
+        for (let i = 0; i < global_projects.length; i++) {
+            if (global_projects[i] !== project) {
+                new_arr.push(global_projects[i]);
+            }
+        }
+        global_projects = new_arr;
+    }
+    else if (choice1 === 3) {
+        open_project();
+    }
+    else if (choice1 === 4) {
+        menu();
+    }
 }
 
+//main call
 menu();

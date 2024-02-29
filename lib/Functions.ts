@@ -164,9 +164,11 @@ export function task_to_project(task: Task, project: Project): void {
  * @param project Project - a project
  */
 export function overview_project(project: Project): void {
+    console.log("project: " + project.title);
     console.log("Tasks in project:");
     if (project.task_ids.length === 0) {
         console.log("Project is currently empty.");
+        console.log("");
     }
     else {
         for (let i = 0; i < project.task_ids.length; i++) {
@@ -177,6 +179,15 @@ export function overview_project(project: Project): void {
                             concat("%"));
                 console.log("");
             } 
+        }
+    }
+    console.log("Categories:");
+    if (project.categories === undefined) {
+        console.log("Project currently has no categories");
+    }
+    else {
+        for (let i = 0; i < project.categories.length; i++) {
+            console.log(project.categories[i]);
         }
     }
 }
