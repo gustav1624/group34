@@ -95,7 +95,8 @@ function open_project() {
     }
     console.log("");
     console.log("Choose an action: ");
-    const choice = choose(["Modify project", "Choose a different project", "Back"]);
+    const choice = choose(["Modify project", "Choose a different project", "Back", "View task",
+                           "View category", "Sort tasks", "Show users"]);
     if (choice === 1) {
         edit_project(current);
     }
