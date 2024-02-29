@@ -142,7 +142,7 @@ function edit_project(project: Project): void {
             //TODO
         }
         else if (choice2 === 4) {
-            //TODO
+            open_project();
         }
     }
     else if (choice1 === 2) {
@@ -163,7 +163,7 @@ function edit_project(project: Project): void {
     }
 }
 
-function task_to_view(project: Project) {
+function task_to_view(project: Project): void {
     console.log("")
     console.log("Choose task to view: ")
     const arr = [];
@@ -174,7 +174,15 @@ function task_to_view(project: Project) {
         }
     }
     const task_choice = choose(arr);
-    view_task(arr[input]);
+    for(let i = 0; i < project.task_ids.length; i++) {
+        const task = ph_lookup(project.task_table, project.task_ids[i]);
+        if (task !== undefined) {
+            if(task.title === arr[task_choice - 1]) {
+                view_task(task);
+            }
+        }
+        
+    }
 }
 
 //main call
