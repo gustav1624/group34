@@ -95,15 +95,18 @@ function open_project() {
     }
     console.log("");
     console.log("Choose an action: ");
-    const choice = choose(["Modify project", "Choose a different project", "Back", "View task",
-                           "View category", "Sort tasks", "Show users"]);
+    const choice = choose(["Modify project", "Choose a different project", "View task",
+                           "View category", "Sort tasks", "Show users", "Back"]);
     if (choice === 1) {
         edit_project(current);
     }
     else if (choice === 2) {
         open_project();
     }
-    else if (choice === 3) {
+    else if(choice === 3) {
+        task_to_view(current);
+    }
+    else if (choice === 7) {
         menu();
     }
 }
@@ -158,6 +161,20 @@ function edit_project(project: Project): void {
     else if (choice1 === 4) {
         menu();
     }
+}
+
+function task_to_view(project: Project) {
+    console.log("")
+    console.log("Choose task to view: ")
+    const arr = [];
+    for(let i = 0; i < project.task_ids.length; i++) {
+        const task = ph_lookup(project.task_table, project.task_ids[i]);
+        if(task !== undefined) {
+            arr.push(task.title);
+        }
+    }
+    const task_choice = choose(arr);
+    view_task(arr[input]);
 }
 
 //main call
