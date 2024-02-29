@@ -95,7 +95,7 @@ function open_project() {
     }
     console.log("");
     console.log("Choose an action: ");
-    const choice = choose(["Edit project", "Choose a different project", "Back"]);
+    const choice = choose(["Modify project", "Choose a different project", "Back"]);
     if (choice === 1) {
         edit_project(current);
     }
@@ -149,6 +149,7 @@ function edit_project(project: Project): void {
             }
         }
         global_projects = new_arr;
+        menu();
     }
     else if (choice1 === 3) {
         open_project();

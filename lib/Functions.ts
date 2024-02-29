@@ -10,7 +10,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
  */
 export function create_project(title: string): Project {
     return { title: title, task_table: create_empty_hash(97, quadratic_probing_function(hash_function)),
-             task_ids: [], categories: [] };
+             task_ids: [], categories: [], users: [] };
 }
 
 /**
