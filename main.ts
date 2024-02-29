@@ -68,7 +68,7 @@ function menu() {
 function open_project() {
     console.log("");
     console.log("opening project");
-    let current = null;
+    let current: Project = create_project("placeholder");
     if (global_projects.length === 0) {
         console.log("You have no projects! Consider creating some.");
         menu();
@@ -77,7 +77,6 @@ function open_project() {
         current = global_projects[0];
         console.log("");
         overview_project(current);
-        
     }
     else {
         console.log("Choose a project:");
@@ -98,7 +97,7 @@ function open_project() {
     console.log("Choose an action: ");
     const choice = choose(["Edit project", "Choose a different project", "Back"]);
     if (choice === 1) {
-        edit_project();
+        edit_project(current);
     }
     else if (choice === 2) {
         open_project();
@@ -111,7 +110,7 @@ function open_project() {
 /**
  * Calls a menu for creating a new project
  */
-function create_new_project() {
+function create_new_project(): void {
     console.log("");
     console.log("Creating a new project");
     const input: string = prompt("Choose a title for the project: ");
@@ -121,25 +120,42 @@ function create_new_project() {
 }
 
 /**
- * Rebuilds an array of projects to not contain any undefined
- * @param arr An array of projects
- * @returns an array of projects
+ * Calls the edit project menu which allows editing a selected project
+ * @param project The project to edit
  */
-function rebuild_project_array(arr: Array<Project>): Array<Project> {
-    let new_arr: Array<Project> = [];
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] !== undefined) {
-            new_arr.push(arr[i]);
+function edit_project(project: Project): void {
+    console.log("edit project");
+    const choice1 = choose(["Edit project", "Delete project", "Choose another project", "Menu"]);
+    if (choice1 === 1) {
+        const choice2 = choose(["Add task", "Delete task", "Edit task", "Back"]);
+        if (choice2 === 1) {
+            //TODO
+        }
+        else if (choice2 === 2) {
+            //TODO
+        }
+        else if (choice2 === 3) {
+            //TODO
+        }
+        else if (choice2 === 4) {
+            //TODO
         }
     }
-    return new_arr;
-}
-
-/**
- * Calls the edit project menu which allows editing projects
- */
-function edit_project() {
-    console.log("edit project");
+    else if (choice1 === 2) {
+        let new_arr: Array<Project> = [];
+        for (let i = 0; i < global_projects.length; i++) {
+            if (global_projects[i] !== project) {
+                new_arr.push(global_projects[i]);
+            }
+        }
+        global_projects = new_arr;
+    }
+    else if (choice1 === 3) {
+        open_project();
+    }
+    else if (choice1 === 4) {
+        menu();
+    }
 }
 
 //main call
