@@ -111,10 +111,10 @@ export function quadratic_probing_function<K>(hash_function: HashFunction<K>): P
 /**
  * Hash function
  * @param key 
- * @returns ???
+ * @returns the key modulo 100
  */
 export function hash_function(key: number): number {
-    return key; //change this later
+    return key % 100; 
 }
 
 //from hashtables.ts
