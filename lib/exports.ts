@@ -2,6 +2,8 @@
  * A record representing a project
  * @param title the name of the project
  * @param task_table a hashtable of tasks
+ * @param task_ids an array of task ids belonging to the task table in the project
+ * @param categories an array of categories existing within the project
  */
 export type Project = { title: string, task_table: TaskStorage, task_ids: Array<number>, categories: Array<Category> };
 
