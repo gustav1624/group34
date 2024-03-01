@@ -5,7 +5,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
     empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed, 
-    task_to_project, access_task, remove_task_from_project, view_task, overview_project, edit_task_user_input } from "./lib/Functions";
+    task_to_project, access_task, remove_task_from_project, view_task, overview_project, edit_task_user_input, tasks_to_array } from "./lib/Functions";
 
 
 //Main data
@@ -107,6 +107,42 @@ function open_project() {
         console.log("")
         console.log("Choose task to view: ")
         task_to_modify(current, view_task);
+    }
+    else if (choice === 5) {
+        const sort_alg = choose(["A-Z", "Z-A", "High Prio", "Low Prio"]);
+        const input = tasks_to_array(current.task_ids, current.task_table);
+        if (sort_alg === 1) {
+            const sorted = alphabetical_sort(input);
+            let new_task_ids: Array<number> = [];
+            for (let i = 0; i < sorted.length; i++) {
+                new_task_ids.push(sorted[i].id);
+            }
+            current.task_ids = new_task_ids;
+        }
+        else if (sort_alg === 2) {
+            const sorted = alphabetical_sort(input).reverse();
+            let new_task_ids: Array<number> = [];
+            for (let i = 0; i < sorted.length; i++) {
+                new_task_ids.push(sorted[i].id);
+            }
+            current.task_ids = new_task_ids;
+        }
+        else if (sort_alg === 3) {
+            const sorted = priority_sort(input);
+            let new_task_ids: Array<number> = [];
+            for (let i = 0; i < sorted.length; i++) {
+                new_task_ids.push(sorted[i].id);
+            }
+            current.task_ids = new_task_ids;
+        }
+        else if (sort_alg === 4) {
+            const sorted = priority_sort(input).reverse();
+            let new_task_ids: Array<number> = [];
+            for (let i = 0; i < sorted.length; i++) {
+                new_task_ids.push(sorted[i].id);
+            }
+            current.task_ids = new_task_ids;
+        }
     }
     else if (choice === 7) {
         menu();
