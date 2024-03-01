@@ -5,7 +5,7 @@ import { Project, Task, SubTask, User, HashFunction, hash_function, ProbingFunct
 
 import { add_subtask, create_project, create_task, generate_id, alphabetical_sort, priority_sort, 
     empty_category, get_task_progress, edit_task, assign_task, complete_task, filter_completed, 
-    task_to_project, access_task, remove_task_from_project, view_task, overview_project } from "./lib/Functions";
+    task_to_project, access_task, remove_task_from_project, view_task, overview_project, edit_task_user_input } from "./lib/Functions";
 
 
 //Main data
@@ -104,7 +104,9 @@ function open_project() {
         open_project();
     }
     else if(choice === 3) {
-        task_to_view(current);
+        console.log("")
+        console.log("Choose task to view: ")
+        task_to_modify(current, view_task);
     }
     else if (choice === 7) {
         menu();
@@ -128,7 +130,7 @@ function create_new_project(): void {
  * @param project The project to edit
  */
 function edit_project(project: Project): void {
-    console.log("edit project");
+    console.log("Edit project");
     const choice1 = choose(["Edit project", "Delete project", "Choose another project", "Menu"]);
     if (choice1 === 1) {
         const choice2 = choose(["Add task", "Delete task", "Edit task", "Back"]);
@@ -136,10 +138,14 @@ function edit_project(project: Project): void {
             //TODO
         }
         else if (choice2 === 2) {
-            //TODO
+            console.log("")
+            console.log("Choose task to delete: ")
+            task_to_modify(project, remove_task_from_project);
         }
         else if (choice2 === 3) {
-            //TODO
+            console.log("")
+            console.log("Choose task to edit: ")
+            task_to_modify(project, edit_task_user_input);
         }
         else if (choice2 === 4) {
             open_project();
@@ -163,22 +169,25 @@ function edit_project(project: Project): void {
     }
 }
 
-function task_to_view(project: Project): void {
-    console.log("")
-    console.log("Choose task to view: ")
-    const arr = [];
+/**
+ * Allows the user to choose a task from the project to modify using another function
+ * @param project the project from which a task can be chosen
+ * @param fnction the function to modify the task or project
+ */
+function task_to_modify(project: Project, fnction: Function): void {
+    const titles = [];
     for(let i = 0; i < project.task_ids.length; i++) {
         const task = ph_lookup(project.task_table, project.task_ids[i]);
         if(task !== undefined) {
-            arr.push(task.title);
+            titles.push(task.title);
         }
     }
-    const task_choice = choose(arr);
+    const task_choice = choose(titles);
     for(let i = 0; i < project.task_ids.length; i++) {
         const task = ph_lookup(project.task_table, project.task_ids[i]);
         if (task !== undefined) {
-            if(task.title === arr[task_choice - 1]) {
-                view_task(task);
+            if(task.title === titles[task_choice - 1]) {
+                fnction(task);
             }
         }
         
