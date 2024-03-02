@@ -182,7 +182,7 @@ export function overview_project(project: Project): void {
         }
     }
     console.log("Categories:");
-    if (project.categories === undefined) {
+    if (project.categories[0] === undefined) {
         console.log("Project currently has no categories");
     }
     else {

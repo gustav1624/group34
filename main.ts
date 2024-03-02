@@ -108,6 +108,9 @@ function open_project() {
         console.log("Choose task to view: ")
         task_to_modify(current, view_task);
     }
+    else if (choice === 4) {
+        //category
+    }
     else if (choice === 5) {
         const sort_alg = choose(["A-Z", "Z-A", "High Prio", "Low Prio"]);
         const input = tasks_to_array(current.task_ids, current.task_table);
@@ -143,6 +146,9 @@ function open_project() {
             }
             current.task_ids = new_task_ids;
         }
+    }
+    else if (choice === 6) {
+        user_function(current);
     }
     else if (choice === 7) {
         menu();
@@ -227,6 +233,59 @@ function task_to_modify(project: Project, fnction: Function): void {
             }
         }
         
+    }
+}
+
+function user_function(project: Project): void {
+    console.log("");
+    console.log("Do you wish to visit an existing user or to create a new one?");
+    const choice = choose(["Show existing users", "Create a new user", "Back"]);
+    if (choice === 1) {
+        console.log("");
+        let users_array = [];
+        for (let i = 0; i < project.users.length; i++) {
+            users_array.push(project.users[i].name);
+        }
+        if (users_array.length === 0) {
+            console.log("There are no users in the system")
+        }
+        else {
+            console.log("Which user do you wish to visit?");
+            const person_choice = choose(users_array);
+            visit_user(project, project.users[person_choice - 1]);
+        }
+        user_function(project);
+    }
+    else if (choice === 2) {
+        console.log("");
+        console.log("Creating a new user");
+        const name: string = prompt("Choose a name for the user: ");
+        console.log("User", name, "created succesfully");
+        const user: User = { name: name, task_ids: [] };
+        project.users.push(user);
+        user_function(project);
+    }
+    else if (choice === 3) {
+        open_project();
+    }
+}
+
+function visit_user(project: Project, user: User): void {
+    console.log("");
+    console.log("User", user.name, "selected");
+    console.log("What do you wish to do?");
+    const choice = choose(["Show tasks", "Assign a task to user", "Remove a task from user", "Back"]);
+    if (choice === 1) {
+        //TO DO
+    }
+    else if (choice === 2) {
+        //TO DO
+    }
+    else if (choice === 3) {
+        //TO DO
+    }
+    else if (choice === 4) {
+        user_function(project);
     }
 }
 
