@@ -284,7 +284,16 @@ function visit_user(project: Project, user: User): void {
     console.log("What do you wish to do?");
     const choice = choose(["Show tasks", "Assign a task to user", "Remove a task from user", "Back"]);
     if (choice === 1) {
-        //TO DO
+        for (let i = 0; i < user.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, user.task_ids[i]);
+            if (task !== undefined) {
+                console.log("Title: ".concat(task.title).concat(" | ID: ").concat(task.id.toString()).
+                            concat(" | Progress: ").concat((Math.round(get_task_progress(task) * 100)).toString()).
+                            concat("%"));
+                console.log("");
+            } 
+        }
+        visit_user(project, user);
     }
     else if (choice === 2) {
         //TO DO
