@@ -67,7 +67,7 @@ function menu() {
  */
 function open_project() {
     console.log("");
-    console.log("opening project");
+    console.log("Opening project");
     let current: Project = create_project("placeholder");
     if (global_projects.length === 0) {
         console.log("You have no projects! Consider creating some.");
@@ -104,9 +104,10 @@ function open_project() {
         open_project();
     }
     else if(choice === 3) {
-        console.log("")
-        console.log("Choose task to view: ")
+        console.log("");
+        console.log("Choose task to view: ");
         task_to_modify(current, view_task);
+        open_project();
     }
     else if (choice === 4) {
         //category
