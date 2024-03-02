@@ -172,22 +172,29 @@ function create_new_project(): void {
  * @param project The project to edit
  */
 function edit_project(project: Project): void {
-    console.log("Edit project");
+    console.log("Edit project: " + project.title);
     const choice1 = choose(["Edit project", "Delete project", "Choose another project", "Menu"]);
     if (choice1 === 1) {
         const choice2 = choose(["Add task", "Delete task", "Edit task", "Back"]);
         if (choice2 === 1) {
-            //TODO
+            const new_title: string = prompt("Choose a title for the task: ");
+            const new_description: string = prompt("Choose a description of the task: ");
+            const new_prio: number = prompt("Choose a priority for the task (0 - 10): ");
+            const new_task = create_task(new_title, new_description, new_prio);
+            task_to_project(new_task, project);
+            edit_project(project);
         }
         else if (choice2 === 2) {
             console.log("")
             console.log("Choose task to delete: ")
             task_to_modify(project, remove_task_from_project);
+            edit_project(project);
         }
         else if (choice2 === 3) {
             console.log("")
             console.log("Choose task to edit: ")
             task_to_modify(project, edit_task_user_input);
+            edit_project(project);
         }
         else if (choice2 === 4) {
             open_project();
