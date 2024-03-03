@@ -296,7 +296,20 @@ function visit_user(project: Project, user: User): void {
         visit_user(project, user);
     }
     else if (choice === 2) {
-        //TO DO
+        console.log("");
+        console.log("Which task do you want to assign?");
+        let task_titles_array: Array<string> = [];
+        for (let i = 0; i < project.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, project.task_ids[i]);
+            if (task !== undefined) {
+            task_titles_array.push(task.title);
+            }
+            //need to check if user already has added this task
+        }
+        const task_title_number = choose(task_titles_array);
+        user.task_ids.push(project.task_ids[task_title_number - 1]);
+        console.log(task_titles_array[task_title_number - 1], "succesfully assigned to user", user.name);
+        visit_user(project, user);
     }
     else if (choice === 3) {
         //TO DO
