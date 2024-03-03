@@ -332,7 +332,7 @@ function visit_user(project: Project, user: User): void {
                 }
             }
             const task_title_number = choose(task_titles_array);
-            user.task_ids = user.task_ids.filter((x) => user.task_ids[task_title_number - 1]);
+            user.task_ids = user.task_ids.filter((x) => x !== user.task_ids[task_title_number - 1]);
         }
         else {
             console.log("There are no tasks assigned to this user");
