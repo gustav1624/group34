@@ -96,7 +96,7 @@ function open_project() {
     console.log("");
     console.log("Choose an action: ");
     const choice = choose(["Modify project", "Choose a different project", "View task",
-                           "View category", "Sort tasks", "Show users", "Back"]);
+                           "View categories", "Sort tasks", "Show users", "Back"]);
     if (choice === 1) {
         edit_project(current);
     }
@@ -110,7 +110,7 @@ function open_project() {
         open_project();
     }
     else if (choice === 4) {
-        //category
+        category_function(current);
     }
     else if (choice === 5) {
         const sort_alg = choose(["A-Z", "Z-A", "High Prio", "Low Prio"]);
@@ -244,6 +244,10 @@ function task_to_modify(project: Project, fnction: Function): void {
     }
 }
 
+/**
+ * A menu that lets the user create new users and show more infromation about users
+ * @param project the currently opened project
+ */
 function user_function(project: Project): void {
     console.log("");
     console.log("Do you wish to visit an existing user or to create a new one?");
@@ -278,20 +282,31 @@ function user_function(project: Project): void {
     }
 }
 
+/**
+ * A menu with alternatives regarding users
+ * Able to assign a task, to remove a task and to show all the tasks that has been assigned
+ * @param project the currently opened project
+ * @param user the user chosen before this function call
+ */
 function visit_user(project: Project, user: User): void {
     console.log("");
     console.log("User", user.name, "selected");
     console.log("What do you wish to do?");
     const choice = choose(["Show tasks", "Assign a task to user", "Remove a task from user", "Back"]);
     if (choice === 1) {
-        for (let i = 0; i < user.task_ids.length; i++) {
-            const task = ph_lookup(project.task_table, user.task_ids[i]);
-            if (task !== undefined) {
-                console.log("Title: ".concat(task.title).concat(" | ID: ").concat(task.id.toString()).
-                            concat(" | Progress: ").concat((Math.round(get_task_progress(task) * 100)).toString()).
-                            concat("%"));
-                console.log("");
-            } 
+        if (user.task_ids.length !== 0) {
+            for (let i = 0; i < user.task_ids.length; i++) {
+                const task = ph_lookup(project.task_table, user.task_ids[i]);
+                if (task !== undefined) {
+                    console.log("Title: ".concat(task.title).concat(" | ID: ").concat(task.id.toString()).
+                                concat(" | Progress: ").concat((Math.round(get_task_progress(task) * 100)).toString()).
+                                concat("%"));
+                    console.log("");
+                } 
+            }
+        }
+        else {
+            console.log("There are no tasks assigned to this user");
         }
         visit_user(project, user);
     }
@@ -341,6 +356,56 @@ function visit_user(project: Project, user: User): void {
     }
     else if (choice === 4) {
         user_function(project);
+    }
+}
+
+function category_function(project: Project): void {
+    console.log("");
+    console.log("Do you wish to visit an existing user or to create a new one?");
+    const choice = choose(["Edit categories", "Create a new category", "Back"]);
+    if (choice === 1) {
+        console.log("");
+        let categories_array = [];
+        for (let i = 0; i < project.categories.length; i++) {
+            categories_array.push(project.categories[i].title);
+        }
+        if (categories_array.length === 0) {
+            console.log("There are no categories in the system")
+        }
+        else {
+            console.log("Which category do you wish to edit?");
+            const category_choice = choose(categories_array);
+            visit_category(project, project.categories[category_choice - 1]);
+        }
+        category_function(project);
+    }
+    else if (choice === 2) {
+        console.log("");
+        console.log("Creating a new category");
+        const title: string = prompt("Choose a title for the category: ");
+        console.log("New category", title, "created succesfully");
+        const category: Category = { title: title, task_ids: [] };
+        project.categories.push(category);
+        category_function(project);
+    }
+    else if (choice === 3) {
+        open_project();
+    }
+}
+
+function visit_category(project: Project, category: Category): void {
+    console.log("");
+    console.log("Category", category.title, "selected");
+    console.log("What do you wish to do?");
+    const choice = choose(["Add a task to this category", "Remove a task from this category", "Back"]);
+    if (choice === 1) {
+        //add task
+    }
+    else if (choice === 2) {
+        //remove task
+    }
+    else if (choice === 3) {
+        category_function(project);
     }
 }
 
