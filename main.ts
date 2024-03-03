@@ -297,22 +297,47 @@ function visit_user(project: Project, user: User): void {
     }
     else if (choice === 2) {
         console.log("");
-        console.log("Which task do you want to assign?");
-        let task_titles_array: Array<string> = [];
+        
+        let filtered_task_ids_array: Array<number> = [];
         for (let i = 0; i < project.task_ids.length; i++) {
-            const task = ph_lookup(project.task_table, project.task_ids[i]);
-            if (task !== undefined) {
-            task_titles_array.push(task.title);
+            if (user.task_ids.filter((x) => x !== project.task_ids[i]).length === user.task_ids.length) {
+                filtered_task_ids_array.push(project.task_ids[i]);
             }
-            //need to check if user already has added this task
         }
-        const task_title_number = choose(task_titles_array);
-        user.task_ids.push(project.task_ids[task_title_number - 1]);
-        console.log(task_titles_array[task_title_number - 1], "succesfully assigned to user", user.name);
+        let task_titles_array: Array<string> = [];
+        for (let i = 0; i < filtered_task_ids_array.length; i++) {
+            const task = ph_lookup(project.task_table, filtered_task_ids_array[i]);
+            if (task !== undefined) {
+                task_titles_array.push(task.title);
+            }
+        }
+        if (task_titles_array.length !== 0) {
+            console.log("Which task do you want to assign?");
+            const task_title_number = choose(task_titles_array);
+            user.task_ids.push(filtered_task_ids_array[task_title_number - 1]);
+            console.log(task_titles_array[task_title_number - 1], "succesfully assigned to user", user.name);
+        }
+        else {
+            console.log("There are no tasks to be added");
+        }
         visit_user(project, user);
     }
     else if (choice === 3) {
-        //TO DO
+        if (user.task_ids.length !== 0) {
+            let task_titles_array: Array<string> = [];
+            for (let i = 0; i < user.task_ids.length; i++) {
+                const task = ph_lookup(project.task_table, user.task_ids[i]);
+                if (task !== undefined) {
+                    task_titles_array.push(task.title);
+                }
+            }
+            const task_title_number = choose(task_titles_array);
+            user.task_ids = user.task_ids.filter((x) => user.task_ids[task_title_number - 1]);
+        }
+        else {
+            console.log("There are no tasks assigned to this user");
+        }
+        visit_user(project, user);
     }
     else if (choice === 4) {
         user_function(project);
