@@ -225,25 +225,27 @@ function task_to_modify(project: Project, fnction: Function): void {
     if(project.task_ids.length === 0) {
         console.log("");
         console.log("No tasks available!");
-        open_project();
     }
-    const titles = [];
-    for(let i = 0; i < project.task_ids.length; i++) {
-        const task = ph_lookup(project.task_table, project.task_ids[i]);
-        if(task !== undefined) {
-            titles.push(task.title);
-        }
-    }
-    const task_choice = choose(titles);
-    for(let i = 0; i < project.task_ids.length; i++) {
-        const task = ph_lookup(project.task_table, project.task_ids[i]);
-        if (task !== undefined) {
-            if(task.title === titles[task_choice - 1]) {
-                fnction(task);
+    else {
+       const titles = [];
+        for(let i = 0; i < project.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, project.task_ids[i]);
+            if(task !== undefined) {
+                titles.push(task.title);
             }
         }
+        const task_choice = choose(titles);
+        for(let i = 0; i < project.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, project.task_ids[i]);
+            if (task !== undefined) {
+                if(task.title === titles[task_choice - 1]) {
+                    fnction(task);
+                }
+            }
         
+        } 
     }
+    
 }
 
 /**
