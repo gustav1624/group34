@@ -56,9 +56,6 @@ function menu() {
     else if (choice === 2) {
         create_new_project();
     } 
-    else if (choice === 3) {
-        return;
-    }
     
 }
 
@@ -269,14 +266,14 @@ function user_function(project: Project): void {
             users_array.push(project.users[i].name);
         }
         if (users_array.length === 0) {
-            console.log("There are no users in the system")
+            console.log("There are no users in the system");
+            user_function(project);
         }
         else {
             console.log("Which user do you wish to visit?");
             const person_choice = choose(users_array);
             visit_user(project, project.users[person_choice - 1]);
         }
-        user_function(project);
     }
     else if (choice === 2) {
         console.log("");
@@ -384,14 +381,14 @@ function category_function(project: Project): void {
             categories_array.push(project.categories[i].title);
         }
         if (categories_array.length === 0) {
-            console.log("There are no categories in the system")
+            console.log("There are no categories in the system");
+            category_function(project);
         }
         else {
             console.log("Which category do you wish to edit?");
             const category_choice = choose(categories_array);
             visit_category(project, project.categories[category_choice - 1]);
         }
-        category_function(project);
     }
     else if (choice === 2) {
         console.log("");
