@@ -148,6 +148,7 @@ function open_project() {
                 }
                 current.task_ids = new_task_ids;
             }
+            open_project();
         }
         else if (choice === 6) {
             user_function(current);
