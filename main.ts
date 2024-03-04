@@ -183,7 +183,7 @@ function edit_project(project: Project): void {
     console.log("Edit project: " + project.title);
     const choice1 = choose(["Edit project", "Delete project", "Choose another project", "Back"]);
     if (choice1 === 1) {
-        const choice2 = choose(["Add task", "Delete task", "Edit task", "Add subtask", "Back"]);
+        const choice2 = choose(["Add task", "Delete task", "Edit task", "Add subtask", "Complete task", "Back"]);
         if (choice2 === 1) {
             const new_title: string = prompt("Choose a title for the task: ");
             const new_description: string = prompt("Choose a description of the task: ");
@@ -208,6 +208,12 @@ function edit_project(project: Project): void {
             subtask_function(project);
         }
         else if (choice2 === 5) {
+            console.log("");
+            console.log("Choose task to complete: ");
+            task_to_modify(project, complete_task);
+            edit_project(project);
+        }
+        else if (choice2 === 6) {
             open_project(project);
         }
     }
