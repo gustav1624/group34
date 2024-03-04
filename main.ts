@@ -185,8 +185,8 @@ function edit_project(project: Project): void {
     if (choice1 === 1) {
         const choice2 = choose(["Add task", "Delete task", "Edit task", "Add subtask", "Back"]);
         if (choice2 === 1) {
-            const new_title: string = prompt("Choose a title for the task: ");
-            const new_description: string = prompt("Choose a description of the task: ");
+            const new_title: string = prompt("Enter a title for the task: ");
+            const new_description: string = prompt("Write a description for the task: ");
             const new_prio: number = prompt("Choose a priority for the task (0 - 10): ");
             const new_task = create_task(new_title, new_description, new_prio);
             task_to_project(new_task, project);
@@ -206,6 +206,7 @@ function edit_project(project: Project): void {
         }
         else if (choice2 === 4) {
             subtask_function(project);
+            edit_project(project);
         }
         else if (choice2 === 5) {
             open_project(project);
@@ -230,14 +231,14 @@ function edit_project(project: Project): void {
 }
 
 function subtask_function(project: Project): void {
-    console.log("");
-    console.log("Choose task to add subtask: ");
-    if(project.task_ids.length === 0) {
+    if (project.task_ids.length === 0) {
         console.log("");
         console.log("No tasks available!");
     }
     else {
-       const titles = [];
+        console.log("");
+        console.log("Choose task to add subtask: ");
+        const titles = [];
         for(let i = 0; i < project.task_ids.length; i++) {
             const task = ph_lookup(project.task_table, project.task_ids[i]);
             if(task !== undefined) {
@@ -249,7 +250,9 @@ function subtask_function(project: Project): void {
             const task = ph_lookup(project.task_table, project.task_ids[i]);
             if (task !== undefined) {
                 if(task.title === titles[task_choice - 1]) {
-                    
+                    const title = prompt("Enter a title for the subtask: ");
+                    const description = prompt("Write a description for the subtask: ");
+                    add_subtask(title, description, task);
                 }
             }
         
