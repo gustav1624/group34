@@ -203,16 +203,3 @@ test("Tasks to array", () => {
     
     expect(arr).toEqual([test_task, test_task2]);
 });
-
-/*
-test("Edit task user input", () => { //not working
-    const test_task = create_task("Task 1", "Instructions", 1);
-    
-    const mockInput = jest.fn();
-    jest.mock("prompt-sync", () => () => mockInput);
-
-    edit_task_user_input(test_task);
-
-    expect(mockInput).toHaveBeenCalledWith("hej");
-});
-*/
