@@ -36,7 +36,7 @@ function choose(alternatives: Array<string>): number {
 /**
  * Menu function. Calls the main menu for the project planner
  */
-function menu() {
+function menu(): void {
     console.log("");
     console.log("PROJECT PLANNER");
     console.log("");
@@ -183,7 +183,7 @@ function edit_project(project: Project): void {
     console.log("Edit project: " + project.title);
     const choice1 = choose(["Edit project", "Delete project", "Choose another project", "Back"]);
     if (choice1 === 1) {
-        const choice2 = choose(["Add task", "Delete task", "Edit task", "Back"]);
+        const choice2 = choose(["Add task", "Delete task", "Edit task", "Add subtask", "Back"]);
         if (choice2 === 1) {
             const new_title: string = prompt("Choose a title for the task: ");
             const new_description: string = prompt("Choose a description of the task: ");
@@ -193,18 +193,21 @@ function edit_project(project: Project): void {
             edit_project(project);
         }
         else if (choice2 === 2) {
-            console.log("")
-            console.log("Choose task to delete: ")
+            console.log("");
+            console.log("Choose task to delete: ");
             task_to_modify(project, remove_task_from_project);
             edit_project(project);
         }
         else if (choice2 === 3) {
-            console.log("")
-            console.log("Choose task to edit: ")
+            console.log("");
+            console.log("Choose task to edit: ");
             task_to_modify(project, edit_task_user_input);
             edit_project(project);
         }
         else if (choice2 === 4) {
+            subtask_function(project);
+        }
+        else if (choice2 === 5) {
             open_project(project);
         }
     }
@@ -223,6 +226,34 @@ function edit_project(project: Project): void {
     }
     else if (choice1 === 4) {
         open_project(project);
+    }
+}
+
+function subtask_function(project: Project): void {
+    console.log("");
+    console.log("Choose task to add subtask: ");
+    if(project.task_ids.length === 0) {
+        console.log("");
+        console.log("No tasks available!");
+    }
+    else {
+       const titles = [];
+        for(let i = 0; i < project.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, project.task_ids[i]);
+            if(task !== undefined) {
+                titles.push(task.title);
+            }
+        }
+        const task_choice = choose(titles);
+        for(let i = 0; i < project.task_ids.length; i++) {
+            const task = ph_lookup(project.task_table, project.task_ids[i]);
+            if (task !== undefined) {
+                if(task.title === titles[task_choice - 1]) {
+                    
+                }
+            }
+        
+        } 
     }
 }
 
