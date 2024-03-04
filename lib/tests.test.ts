@@ -10,7 +10,7 @@ import { add_subtask, create_project, create_task, generate_id, alphabetical_sor
 test("Create project", () => {
     const test_project = create_project("Project 1");
     const test_task_table = create_empty_hash(97, quadratic_probing_function(hash_function));
-    const test_project_expected = { title: "Project 1", task_table: test_task_table, task_ids: [], categories: [] };
+    const test_project_expected = { title: "Project 1", task_table: test_task_table, task_ids: [], categories: [], users: [] };
     expect(JSON.stringify(test_project_expected)).toEqual(JSON.stringify(test_project));
 });
 
@@ -157,10 +157,17 @@ test("Overview Project", () => {
 
     overview_project(test_project);
     
-    expect(log_spy).toHaveBeenCalledTimes(3);
+    expect(log_spy).toHaveBeenCalledTimes(7);
     expect(log_spy).toHaveBeenCalledWith("Tasks in project:");
     expect(log_spy).toHaveBeenCalledWith("Title: Task 1 | ID: 1 | Progress: 0%");
     expect(log_spy).toHaveBeenCalledWith("");
+    expect(log_spy).toHaveBeenCalledWith(
+        "Title: ".concat(test_task.title).concat(" | ID: ").concat(test_task.id.toString()).
+        concat(" | Progress: ").concat((Math.round(get_task_progress(test_task) * 100)).toString()).
+        concat("%")
+    );
+    expect(log_spy).toHaveBeenCalledWith("Categories:");
+    expect(log_spy).toHaveBeenCalledWith("Project currently has no categories");
 });
 
 test("View task", () => {
