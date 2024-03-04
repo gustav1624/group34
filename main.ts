@@ -69,6 +69,7 @@ function open_project() {
     console.log("");
     console.log("Opening project");
     let current: Project = create_project("placeholder");
+    let chosen = false;
     if (global_projects.length === 0) {
         console.log("You have no projects! Consider creating some.");
         menu();
@@ -77,6 +78,7 @@ function open_project() {
         current = global_projects[0];
         console.log("");
         overview_project(current);
+        chosen = true;
     }
     else {
         console.log("Choose a project:");
@@ -91,68 +93,71 @@ function open_project() {
         current = global_projects[choices_index[choose(choices) - 1]];
         console.log("");
         overview_project(current);
+        chosen = true;
         
     }
-    console.log("");
-    console.log("Choose an action: ");
-    const choice = choose(["Modify project", "Choose a different project", "View task",
-                           "View categories", "Sort tasks", "Show users", "Back"]);
-    if (choice === 1) {
-        edit_project(current);
-    }
-    else if (choice === 2) {
-        open_project();
-    }
-    else if(choice === 3) {
+    if (chosen === true) {    
         console.log("");
-        console.log("Choose task to view: ");
-        task_to_modify(current, view_task);
-        open_project();
-    }
-    else if (choice === 4) {
-        category_function(current);
-    }
-    else if (choice === 5) {
-        const sort_alg = choose(["A-Z", "Z-A", "High Prio", "Low Prio"]);
-        const input = tasks_to_array(current.task_ids, current.task_table);
-        if (sort_alg === 1) {
-            const sorted = alphabetical_sort(input);
-            let new_task_ids: Array<number> = [];
-            for (let i = 0; i < sorted.length; i++) {
-                new_task_ids.push(sorted[i].id);
-            }
-            current.task_ids = new_task_ids;
+        console.log("Choose an action: ");
+        const choice = choose(["Modify project", "Choose a different project", "View task",
+                            "View categories", "Sort tasks", "Show users", "Back"]);
+        if (choice === 1) {
+            edit_project(current);
         }
-        else if (sort_alg === 2) {
-            const sorted = alphabetical_sort(input).reverse();
-            let new_task_ids: Array<number> = [];
-            for (let i = 0; i < sorted.length; i++) {
-                new_task_ids.push(sorted[i].id);
-            }
-            current.task_ids = new_task_ids;
+        else if (choice === 2) {
+            open_project();
         }
-        else if (sort_alg === 3) {
-            const sorted = priority_sort(input);
-            let new_task_ids: Array<number> = [];
-            for (let i = 0; i < sorted.length; i++) {
-                new_task_ids.push(sorted[i].id);
-            }
-            current.task_ids = new_task_ids;
+        else if(choice === 3) {
+            console.log("");
+            console.log("Choose task to view: ");
+            task_to_modify(current, view_task);
+            open_project();
         }
-        else if (sort_alg === 4) {
-            const sorted = priority_sort(input).reverse();
-            let new_task_ids: Array<number> = [];
-            for (let i = 0; i < sorted.length; i++) {
-                new_task_ids.push(sorted[i].id);
-            }
-            current.task_ids = new_task_ids;
+        else if (choice === 4) {
+            category_function(current);
         }
-    }
-    else if (choice === 6) {
-        user_function(current);
-    }
-    else if (choice === 7) {
-        menu();
+        else if (choice === 5) {
+            const sort_alg = choose(["A-Z", "Z-A", "High Prio", "Low Prio"]);
+            const input = tasks_to_array(current.task_ids, current.task_table);
+            if (sort_alg === 1) {
+                const sorted = alphabetical_sort(input);
+                let new_task_ids: Array<number> = [];
+                for (let i = 0; i < sorted.length; i++) {
+                    new_task_ids.push(sorted[i].id);
+                }
+                current.task_ids = new_task_ids;
+            }
+            else if (sort_alg === 2) {
+                const sorted = alphabetical_sort(input).reverse();
+                let new_task_ids: Array<number> = [];
+                for (let i = 0; i < sorted.length; i++) {
+                    new_task_ids.push(sorted[i].id);
+                }
+                current.task_ids = new_task_ids;
+            }
+            else if (sort_alg === 3) {
+                const sorted = priority_sort(input);
+                let new_task_ids: Array<number> = [];
+                for (let i = 0; i < sorted.length; i++) {
+                    new_task_ids.push(sorted[i].id);
+                }
+                current.task_ids = new_task_ids;
+            }
+            else if (sort_alg === 4) {
+                const sorted = priority_sort(input).reverse();
+                let new_task_ids: Array<number> = [];
+                for (let i = 0; i < sorted.length; i++) {
+                    new_task_ids.push(sorted[i].id);
+                }
+                current.task_ids = new_task_ids;
+            }
+        }
+        else if (choice === 6) {
+            user_function(current);
+        }
+        else if (choice === 7) {
+            menu();
+        }
     }
 }
 
