@@ -116,7 +116,7 @@ test("Edit task", () => {
     expect(test_task_expected).toEqual(test_task);
 });
 
-test("filter_completed", () => {
+test("Filter completed", () => {
     const tsk1 = create_task("task 1", "description", 1);
     const tsk2 = create_task("task 2", "description", 1);
     const tsk3 = create_task("task 3", "description", 1);
@@ -127,7 +127,7 @@ test("filter_completed", () => {
     expect(filter_completed(tsk_arr)).toEqual([tsk2, tsk3]);
 });
 
-test("get_task_progress", () => {
+test("Get task progress", () => {
     let tsk = create_task("task", "much progress here!", 5);
     add_subtask("st 1", "desc 1", tsk);
     add_subtask("st 2", "desc 2", tsk);
