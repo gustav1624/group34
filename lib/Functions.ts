@@ -165,6 +165,7 @@ export function task_to_project(task: Task, project: Project): void {
  */
 export function overview_project(project: Project): void {
     console.log("project: " + project.title);
+    console.log("");
     console.log("Tasks in project:");
     if (project.task_ids.length === 0) {
         console.log("Project is currently empty.");
@@ -187,7 +188,14 @@ export function overview_project(project: Project): void {
     }
     else {
         for (let i = 0; i < project.categories.length; i++) {
-            console.log(project.categories[i]);
+            console.log("Tasks in", project.categories[i].title.toString().concat(":"));
+            for (let n = 0; n < project.categories[i].task_ids.length; n++) {
+                const task = ph_lookup(project.task_table, project.categories[i].task_ids[n]);
+                if (task !== undefined) {
+                    console.log(task.title);
+                }
+            }
+            console.log("");
         }
     }
 }

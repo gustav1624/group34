@@ -245,7 +245,7 @@ function task_to_modify(project: Project, fnction: Function): void {
 }
 
 /**
- * A menu that lets the user create new users and show more infromation about users
+ * A menu that lets the user create new users and show more infromation about existing users
  * @param project the currently opened project
  */
 function user_function(project: Project): void {
@@ -312,7 +312,6 @@ function visit_user(project: Project, user: User): void {
     }
     else if (choice === 2) {
         console.log("");
-        
         let filtered_task_ids_array: Array<number> = [];
         for (let i = 0; i < project.task_ids.length; i++) {
             if (user.task_ids.filter((x) => x !== project.task_ids[i]).length === user.task_ids.length) {
@@ -348,6 +347,7 @@ function visit_user(project: Project, user: User): void {
             }
             const task_title_number = choose(task_titles_array);
             user.task_ids = user.task_ids.filter((x) => x !== user.task_ids[task_title_number - 1]);
+            console.log(task_titles_array[task_title_number - 1], "succesfully removed from user", user.name);
         }
         else {
             console.log("There are no tasks assigned to this user");
@@ -359,9 +359,13 @@ function visit_user(project: Project, user: User): void {
     }
 }
 
+/**
+ * A menu with alternatives to create a category and edit existing categories
+ * @param project the currently opened project
+ */
 function category_function(project: Project): void {
     console.log("");
-    console.log("Do you wish to visit an existing user or to create a new one?");
+    console.log("Do you wish to edit existing categories or to create a new one?");
     const choice = choose(["Edit categories", "Create a new category", "Back"]);
     if (choice === 1) {
         console.log("");
@@ -393,16 +397,59 @@ function category_function(project: Project): void {
     }
 }
 
+/**
+ * A menu with alternatives to add or remove a task from this category
+ * @param project the currently opened project
+ * @param category the category chosen before this function call
+ */
 function visit_category(project: Project, category: Category): void {
     console.log("");
     console.log("Category", category.title, "selected");
     console.log("What do you wish to do?");
     const choice = choose(["Add a task to this category", "Remove a task from this category", "Back"]);
     if (choice === 1) {
-        //add task
+        console.log("");
+        let filtered_task_ids_array: Array<number> = [];
+        for (let i = 0; i < project.task_ids.length; i++) {
+            if (category.task_ids.filter((x) => x !== project.task_ids[i]).length === category.task_ids.length) {
+                filtered_task_ids_array.push(project.task_ids[i]);
+            }
+        }
+        let task_titles_array: Array<string> = [];
+        for (let i = 0; i < filtered_task_ids_array.length; i++) {
+            const task = ph_lookup(project.task_table, filtered_task_ids_array[i]);
+            if (task !== undefined) {
+                task_titles_array.push(task.title);
+            }
+        }
+        if (task_titles_array.length !== 0) {
+            console.log("Which task do you want to add to", category.title, "?");
+            const task_title_number = choose(task_titles_array);
+            category.task_ids.push(filtered_task_ids_array[task_title_number - 1]);
+            console.log(task_titles_array[task_title_number - 1], "succesfully added to", category.title);
+        }
+        else {
+            console.log("There are no tasks that can be added to this category");
+        }
+        visit_category(project, category);
     }
     else if (choice === 2) {
-        //remove task
+        if (category.task_ids.length !== 0) {
+            let task_titles_array: Array<string> = [];
+            for (let i = 0; i < category.task_ids.length; i++) {
+                const task = ph_lookup(project.task_table, category.task_ids[i]);
+                if (task !== undefined) {
+                    task_titles_array.push(task.title);
+                }
+            }
+            const task_title_number = choose(task_titles_array);
+            category.task_ids = category.task_ids.filter((x) => x !== category.task_ids[task_title_number - 1]);
+            console.log(task_titles_array[task_title_number - 1], "succesfully removed from", category.title);
+        }
+        else {
+            console.log("There are no tasks in this category");
+        }
+        visit_category(project, category);
     }
     else if (choice === 3) {
         category_function(project);
