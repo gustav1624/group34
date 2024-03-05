@@ -18,7 +18,7 @@ export function create_project(title: string): Project {
  * @param is_subtask boolean - Specifies if the task is a subtask or not
  * @returns number - returns a number beginning in 9 if task is a subtask and 1 if not
  */
-export function generate_id(is_subtask: boolean) {
+export function generate_id(is_subtask: boolean): number {
     const num = Date.now();
     const xxxx = (Math.floor(Math.random() * 9999)).toString();
     return is_subtask ? parseInt("9".concat(num.toString()).concat(xxxx))
