@@ -59,6 +59,9 @@ function menu(): void {
     
 }
 
+/**
+ * A function for choosing which project to open
+ */
 function choose_project(): void {
     console.log("");
     console.log("Opening project");
@@ -95,7 +98,10 @@ function choose_project(): void {
 }
 
 /**
- * Open project function. Calls a menu for opening projects
+ * Open project function
+ * Opens the project chosen with choose_project, or the only project if there is only one
+ * A menu with different alternatives regarding the project.
+ * @param project the project to open
  */
 function open_project(project: Project): void {
     overview_project(project);
@@ -195,7 +201,7 @@ function edit_project(project: Project): void {
         else if (choice2 === 2) {
             console.log("");
             console.log("Choose task to delete: ");
-            task_to_modify(project, remove_task_from_project);
+            delete_task(project);
             edit_project(project);
         }
         else if (choice2 === 3) {
@@ -236,6 +242,10 @@ function edit_project(project: Project): void {
     }
 }
 
+/**
+ * Adds a subtask to a task
+ * @param project the project currently opened
+ */
 function subtask_function(project: Project): void {
     if (project.task_ids.length === 0) {
         console.log("");
@@ -296,6 +306,37 @@ function task_to_modify(project: Project, fnction: Function): void {
         } 
     }
     
+}
+
+/**
+ * Allows the user to remove a task from a project
+ * Editet version of task_to_modify
+ * @param project the project currently opened
+ */
+function delete_task(project: Project): void {
+    if(project.task_ids.length === 0) {
+        console.log("");
+        console.log("No tasks available!");
+    }
+    else {
+        const titles = [];
+         for(let i = 0; i < project.task_ids.length; i++) {
+             const task = ph_lookup(project.task_table, project.task_ids[i]);
+             if(task !== undefined) {
+                 titles.push(task.title);
+             }
+         }
+         const task_choice = choose(titles);
+         for(let i = 0; i < project.task_ids.length; i++) {
+             const task = ph_lookup(project.task_table, project.task_ids[i]);
+             if (task !== undefined) {
+                 if(task.title === titles[task_choice - 1]) {
+                     remove_task_from_project(task, project);
+                 }
+             }
+         
+         } 
+     }
 }
 
 /**
